@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+    {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+        <form action="" method="POST" name="form">
+            <div class="col-md-4 col-md-offset-4">
+                <h2>Login</h2>
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <label class="control-label" for="username">Username</label>
+                    {{ form.username }}
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="password">Password</label>
+                    {{ form.password }}
+                </div>
+                <button class="btn btn-default" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

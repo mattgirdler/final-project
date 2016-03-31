@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block body %}
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h2> Project Management </h2>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <h3>Project</h3>
+            </div>
+            <div class="col-md-4">
+                <h3>Chart type</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="styled-project-select">
+                    <select name="project" id="project" onchange="loadProject()">
+                        {% for project in projects %}
+                            <option name={{ project._id }}> {{ project.name }} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+            </div>
+            <div class="col-md-4">
+                <div class="styled-project-select">
+                    <select name="chart" id="chart" onchange="loadProject()">
+                        <option name="Column">Column</option>
+                        <option selected='true' name="Pie">Pie</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div id="myPieChart"></div>
+    </div>
+</body>
+{% endblock %}
