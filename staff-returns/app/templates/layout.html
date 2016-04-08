@@ -1,86 +1,17 @@
 <!doctype html>
 <head>
-<title>Staff Returns</title>
-<link rel=stylesheet type=text/css href="../static/css/bootstrap.min.css">
+<title>Project Budget Tracker</title>
+<link rel=stylesheet type=text/css href="../static/bootstrap/css/bootstrap.min.css">
 <link rel=stylesheet type=text/css href="../static/css/style.css">
 
 <script type="text/javascript" src="../static/js/jquery-1.12.2.js"></script>
+<script type="text/javascript" src="../static/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/js/loader.js"></script>
 <script type="text/javascript" src="../static/js/functions.js"></script>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-{% if title == 'project-management' %}
-    <script type="text/javascript">
 
-    google.charts.load('current', {packages: ['corechart', 'table']});
-    // google.charts.setOnLoadCallback(loadProject());
-
-    function drawPieChart(project) {
-      // Define the chart to be drawn.
-      project = JSON.parse(project);
-      var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      var date = new Date();
-      var month = monthNames[date.getMonth()];
-      var year = date.getFullYear();
-      var data = new google.visualization.DataTable();
-      if (year in project && month in project[year]) {
-          data.addColumn('string', 'User');
-          data.addColumn('number', 'Hours');
-          var total_hours = 0;
-          for (var user in project[year][month]) {
-              data.addRow([user, parseInt(project[year][month][user])]);
-              total_hours += parseInt(project[year][month][user]);
-          }
-      } else {
-          data.addColumn('string', 'User');
-          data.addColumn('number', 'Hours');
-          data.addRow(['None', 0])
-      }
-      // Instantiate and draw the chart.
-      var chart = new google.visualization.PieChart(document.getElementById('myPieChart'));
-      chart.draw(data, null);
-    }
-
-    function drawColumnChart(project) {
-        project = JSON.parse(project)
-        var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        var date = new Date();
-        var month = monthNames[date.getMonth()];
-        var year = date.getFullYear();
-        var data_array = [['User', 'Hours']];
-        if (year in project && month in project[year]) {
-            for (var user in project[year][month]) {
-                data_array.push([user, parseInt(project[year][month][user])]);
-            }
-        }
-        var data = google.visualization.arrayToDataTable(data_array);
-        var chart = new google.visualization.ColumnChart(document.getElementById('myPieChart'));
-        chart.draw(data, null);
-    }
-
-    function loadProject() {
-      var xhttp = new XMLHttpRequest();
-      var chartType =  document.getElementById("chart").value
-      var projectName = document.getElementById("project").value
-      xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            switch(chartType) {
-                case 'Column' :
-                    drawColumnChart(xhttp.responseText);
-                    break;
-                case 'Pie' :
-                    drawPieChart(xhttp.responseText);
-                    break;
-            }
-
-        }
-      };
-      xhttp.open("GET", "http://192.168.33.10:8080/load-project/"+projectName, true);
-      xhttp.send();
-    }
-
-    </script>
-{% endif %}
-
+{% block head %}{% endblock %}
 </head>
+
 {% block content %}
 <main id="content" role="main">
   <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -92,7 +23,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Staff Returns</a>
+        <a class="navbar-brand" href="#">Project Budget Tracker</a>
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -108,7 +39,7 @@
                 <li><a href="/settings">Settings</a></li>
             {% endif %}
 
-            {% if 'Admin' in user_roles %}
+            {% if user_role == 'Delivery Manager' or user_role == 'Admin' %}
                 {% if title =='project-management' %}
                     <li class="active"><a href="/project-management">Project Management</a></li>
                 {% else %}
@@ -125,6 +56,27 @@
       </div>
     </div>
   </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="col-md-12">
+            <ul class=flashes>
+            {% for category, message in messages %}
+              {% if category == 'error' %}
+                  <div class="alert alert-danger fade in" role="alert">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Error:</strong> {{ message }}
+                  </div>
+              {% elif category =='success' %}
+                  <div class="alert alert-success fade in" role="alert">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>{{ message }}</strong>
+                  </div>
+              {% endif %}
+            {% endfor %}
+            </ul>
+          </div>
+      {% endif %}
+    {% endwith %}
   {% block body %}{% endblock %}
 </main>
 

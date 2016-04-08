@@ -5,6 +5,7 @@
         <form action="" method="POST" name="form">
             <div class="col-md-4 col-md-offset-4">
                 <h2>Login</h2>
+                <div class="top-buffer"></div>
                 {{ form.hidden_tag() }}
                 <div class="form-group">
                     <label class="control-label" for="username">Username</label>
@@ -14,8 +15,15 @@
                     <label class="control-label" for="password">Password</label>
                     {{ form.password }}
                 </div>
-                <button class="btn btn-default" type="submit">Submit</button>
+                <button class="btn btn-primary" type="submit">Submit</button>
             </div>
         </form>
+        <hr>
+        <div class="col-md-12">
+            <hr>
+            <div class="col-md-4 col-md-offset-4">
+                <a href="/register">Don't have an account?</a>
+            </div>
+        </div>
     </div>
 {% endblock %}
