@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% block body %}
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h2> Register </h2>
+        </div>
+        <form action="" method="POST" name="form">
+            {{ form.hidden_tag() }}
+            <div class="col-md-10">
+                <div class="top-buffer"></div>
+                <div class="row" id="username_row">
+                    <div class="col-md-5 form-group">
+                        <div class="col-md-6">
+                            <label class="control-label" for="username">Username</label>
+                        </div>
+                        {{ form.username }}
+                    </div>
+                </div>
+                <div class="row" id="password_row">
+                    <div class="col-md-5 form-group">
+                        <div class="col-md-6">
+                            <label class="control-label" for="password">Password</label>
+                        </div>
+                        {{ form.password }}
+                    </div>
+                    <div class="col-md-5 form-group">
+                        <div class="col-md-6">
+                            <label class="control-label" for="confirm">Confirm Password</label>
+                        </div>
+                        {{ form.confirm }}
+                    </div>
+                </div>
+                <div class="row" id="name_row">
+                    <div class="col-md-5 form-group">
+                        <div class="col-md-6">
+                            <label class="control-label" for="firstname">First Name</label>
+                        </div>
+                        {{ form.firstname }}
+                    </div>
+                    <div class="col-md-5 form-group">
+                        <div class="col-md-6">
+                            <label class="control-label" for="lastname">Last Name</label>
+                        </div>
+                        {{ form.lastname }}
+                    </div>
+                </div>
+                <div class="row" id="role_row">
+                    <div class="col-md-5  form-group">
+                        <div class="col-md-6">
+                            <label for="role">Role</label>
+                        </div>
+                        <div class="styled-project-select-register">
+                            {{ form.role }}
+                        </div>
+                    </div>
+                    <div class="col-md-5 form-group">
+                        <div class="col-md-6">
+                            <label for="paygrade">Pay Grade</label>
+                        </div>
+                        <div class="styled-project-select-register">
+                            {{ form.paygrade }}
+                        </div>
+                    </div>
+                </div>
+                <div class="top-buffer"></div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+{% endblock %}

@@ -6,21 +6,37 @@
             <h2> User settings </h2>
         </div>
 
-        <form name= "form" id="role_select_form" method="POST">
-            <div class="col-lg-8" id="role_select_div">
-                <div class="row" id="role_row_1">
-                    <div class="col-md-4">
-                        <div class="styled-project-select">
-                            <select name="role" id="role">
-                                <option name="select">Select your role</option>
-                                {% for role in roles %}
-                                    <option name={{ role.title }}> {{ role.title }}
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="top-buffer"></div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+        <form name= "form" id="user_settings_form" method="POST">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Working hours</h3>
+                </div>
+            </div>
+            <div class="row">
+                {% for day, hours in days %}
+                    <div class="col-md-2">
+                        <h4>{{ day }}</h4>
+                        <input type="text" value={{ hours }} name={{ day }}>
                     </div>
+                {% endfor %}
+            </div>
+            <div class="row" id="role_row_1">
+                <div class="col-md-4">
+                    <h3>Role</h3>
+                    <div class="styled-project-select">
+                        <select name="role" id="role">
+                            <option name="select">Select your role</option>
+                            {% for role in roles %}
+                                {% if role.title in user_roles %}
+                                    <option selected="true" name={{ role.title }}> {{ role.title }}
+                                {% else %}
+                                    <option name={{ role.title }}> {{ role.title }}
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="top-buffer"></div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </div>
         </form>

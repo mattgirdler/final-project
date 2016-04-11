@@ -7,59 +7,39 @@
         </div>
         <form name= "project_entries_form" id="project_entries_form" method="POST">
             <div class="col-lg-8" id="project_entries_div">
-                <div class="row" id="project_row_1">
-                    <div class="col-md-4">
-                        <div class="styled-project-select">
-                            <select name="project_select_1" id="project_select_1">
-                                <option name="Select">Select a Project</option>
-                                {% for project in projects %}
-                                    <option name={{ project._id }}> {{ project.name }}
-                                {% endfor %}
-                            </select>
+                {% for i in range(1, 16) %}
+                    {% if i == 1 %}
+                        <div class="row" id="project_row_{{ i }}">
+                    {% else %}
+                        <div class="row" id="project_row_{{ i }}" style="display: none;">
+                    {% endif %}
+                        <div class="col-md-4">
+                            <div class="styled-project-select">
+                                <select name="project_select_{{ i }}" id="project_select_{{ i }}">
+                                    <option name="Select">Select a Project</option>
+                                    {% for project in projects %}
+                                        <option name={{ project._id }}> {{ project.name }}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="top-buffer"></div>
                         </div>
-                        <div class="top-buffer"></div>
+                         <div class="col-md-4">
+                             <input name="project_input_{{ i }}" id="project_input_{{ i }}" type="number" min="0" max="500" class="form-control hours-input" placeholder="0" value=value>
+                         </div>
                     </div>
-                     <div class="col-md-4">
-                         <input name="project_input_1" id="project_input_1" type="number" min="0" max="500" class="form-control hours-input" placeholder="0" value=value>
-                     </div>
-                </div>
-
-                <div class="row" id="project_row_2">
-                    <div class="col-md-4">
-                        <div class="styled-project-select">
-                            <select name="project_select_2" id="project_select_2">
-                            <option name="Select">Select a Project</option>
-                            {% for project in projects %}
-                                <option name={{ project._id }}> {{ project.name }}
-                            {% endfor %}
-                            </select>
-                        </div>
-                        <div class="top-buffer"></div>
-                    </div>
-                     <div class="col-md-4">
-                         <input name="project_input_2" id="project_input_2" type="number" min="0" max="500" class="form-control hours-input" placeholder="0" value=value>
-                     </div>
-                </div>
-
-                <div class="row" id="project_row_3">
-                    <div class="col-md-4">
-                        <div class="styled-project-select">
-                            <select name="project_select_3" id="project_select_3">
-                            <option name="Select">Select a Project</option>
-                            {% for project in projects %}
-                                <option name={{ project._id }}> {{ project.name }}
-                            {% endfor %}
-                            </select>
-                        </div>
-                        <div class="top-buffer"></div>
-                    </div>
-                     <div class="col-md-4">
-                         <input name="project_input_3" id="project_input_3" type="number" min="0" max="500" class="form-control hours-input" placeholder="0" value=value>
-                     </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Submit</button>
+                {% endfor %}
+                <a onclick="addProjectRow()" class="btn btn-primary">Add Entry</a>
             </div>
+        <div class="col-md-4">
+            <h3>Hours Logged</h3>
+            {% for project in user_projects %}
+                <p>{{ project }} - {{ user_projects[project] }}</p>
+            {% endfor %}
+            <strong>Total hours logged: {{ total_hours }}</strong>
+            <div class="top-buffer"></div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
         </form>
     </div>
 </body>
