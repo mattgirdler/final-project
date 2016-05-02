@@ -62,29 +62,49 @@
                             {{ form.paygrade }}
                         </div>
                     </div>
-                </div>
+                </div> <!--
                 <div class="row" id="workingpattern_row">
                     <div class="col-md-8 form-group">
                         <div class="col-md-3">
                             <label for="workingpattern">Working Pattern</label>
                         </div>
-                        <div class="checkbox-inline">
-                            {{ form.workingpattern }}
+                        <div class="input-group">
+                            <div class="radio-inline">
+                            </div>
                         </div>
                     </div>
+                </div> -->
+                <div class="col-md-4">
+                    <h4>Working Hours</h4>
                 </div>
                 <div class="row" id="workinghours_row">
                     <div class="col-md-12 form-group">
-                        {% for day in days %}
-                            <div class="col-md-2">
-                                <label>{{ day }}</label>
-                                <input type="text" value=0 name={{ day }}>
-                            </div>
-                        {% endfor %}
+                        <div class="col-md-2">
+                            <label for="monday">Monday</label>
+                            <input type="text" value=0 name="monday">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="tuesday">Tuesday</label>
+                            <input type="text" value=0 name="tuesday">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="wednesday">Wednesday</label>
+                            <input type="text" value=0 name="wednesday">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="thursday">Thursday</label>
+                            <input type="text" value=0 name="thursday">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="friday">Friday</label>
+                            <input type="text" value=0 name="friday">
+                        </div>
                     </div>
-            </div>
+                </div>
                 <div class="top-buffer"></div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="col-md-2 col-md-offset-5">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
             </div>
         </form>
     </div>

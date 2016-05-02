@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from tasks import sort_monthly_projects
+from tasks import sort_monthly_projects, calculate_hours_required
 from datetime import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 import json
@@ -38,8 +38,9 @@ class DBAccess():
                 user[year][month]['projects'] = {}
             if 'total_hours' not in user[year][month]:
                 user[year][month]['total_hours'] = 0
-            if 'hours_required' not in user[year][month]:
-                user[year][month]['hours_required'] = 0
+            if 'hours_required' not in user[year][month] or user[year][month]['hours_required'] == 0:
+                hours_required = calculate_hours_required(user['workdays'])
+                user[year][month]['hours_required'] = hours_required
             self.update_user(user)
             return user
         else:
@@ -108,7 +109,7 @@ class DBAccess():
         month = date.strftime("%B")
         total_hours = 0
         for project in user[year][month]['projects']:
-            total_hours += int(user[year][month]['projects'][project])
+            total_hours += float(user[year][month]['projects'][project])
         return total_hours
 
     def update_user(self, user):
@@ -174,7 +175,7 @@ class DBAccess():
         month = date.strftime("%B")
         total_hours = 0
         for user in project[year][month]['users']:
-            total_hours += int(project[year][month]['users'][user]['hours'])
+            total_hours += float(project[year][month]['users'][user]['hours'])
         return total_hours
 
     def update_project_total_cost(self, project):
@@ -183,7 +184,7 @@ class DBAccess():
         month = date.strftime("%B")
         total_cost = 0
         for user in project[year][month]['users']:
-            total_cost += int(project[year][month]['users'][user]['cost'])
+            total_cost += float(project[year][month]['users'][user]['cost'])
         return total_cost
 
     def select_project_id_from_name(self, project_name):
@@ -278,4 +279,3 @@ class DBAccess():
         for day in weekdays:
             workdays[day] = form_data_dict[day]
         collection.update_one({'_id': user_id}, {'$set': {'workdays': workdays}})
-        print(workdays)

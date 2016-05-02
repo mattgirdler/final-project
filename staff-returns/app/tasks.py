@@ -15,8 +15,12 @@ def sort_monthly_projects(form_data):
     return sorted_projects
 
 
-def calculate_hours_required():
-    days = [["Monday", 0]["Tuesday", 1]["Wednesday", 2]["Thursday", 3]["Friday", 4]["Saturday", 5]["Sunday": 6]]
+def calculate_hours_required(workdays):
+    days = [["Monday", 0],["Tuesday", 1],["Wednesday", 2],["Thursday", 3],["Friday", 4]]
+    hours_required = 0
     for day in days:
-        print(day)
-        print(len([1 for i in calendar.monthcalendar(datetime.now().year, datetime.now().month) if i[days[day]] != 0]))
+        # eg. day[0] == "Monday", day[1] == 0
+        numdays = (len([1 for i in calendar.monthcalendar(datetime.now().year, datetime.now().month) if i[day[1]] != 0]))
+        hours_required += float(numdays) * float(workdays[day[0]])
+    return hours_required
+

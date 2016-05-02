@@ -22,6 +22,9 @@ def main():
             flash(result, 'success')
         elif result == "No projects entered":
             flash(result, 'error')
+    user_projects = {}
+    total_hours = 0
+    hours_required = 0
     date = datetime.now()
     year = str(date.year)
     month = date.strftime("%B")
@@ -31,14 +34,10 @@ def main():
     if year in user_dict and month in user_dict[year]:
         user_projects = user_dict[year][month]['projects']
         if 'total_hours' in user_dict[year][month]:
-            total_hours = int(user_dict[year][month]['total_hours'])
-        else:
-            total_hours = 0
-    else:
-        user_projects = {}
-        total_hours = 0
+            total_hours = float(user_dict[year][month]['total_hours'])
+        if 'hours_required' in user_dict[year][month]:
+            hours_required = float(user_dict[year][month]['hours_required'])
     projects = dbManager.select_all_projects()
-    calculate_hours_required()
     return render_template(
         'staff-returns.html',
         title='home',
@@ -48,32 +47,33 @@ def main():
         user_role=user_role,
         user_projects=user_projects,
         total_hours=total_hours,
+        hours_required=hours_required,
         result=result)
 
 
-@app.route('/settings', methods=['GET', 'POST'])
-@login_required
-def settings():
-    result = None
-    user = load_user(current_user.username)
-    if request.method == 'POST':
-        form_data = request.form
-        dbManager.set_role(user.username, form_data)
-        dbManager.set_working_hours(user.username, form_data)
-        result = "Settings updated"
-        flash(result, 'success')
-    user_role = user.get_role()
-    paygrade = user.get_paygrade()
-    workdays = user.get_workdays()
-    paygrades = dbManager.select_paygrades()
-    roles = dbManager.select_all_roles()
-    return render_template('user-settings.html',
-                           title='settings',
-                           roles=roles,
-                           paygrade=paygrade,
-                           user_role=user_role,
-                           days=workdays,
-                           result=result)
+# @app.route('/settings', methods=['GET', 'POST'])
+# @login_required
+# def settings():
+#     result = None
+#     user = load_user(current_user.username)
+#     if request.method == 'POST':
+#         form_data = request.form
+#         dbManager.set_role(user.username, form_data)
+#         dbManager.set_working_hours(user.username, form_data)
+#         result = "Settings updated"
+#         flash(result, 'success')
+#     user_role = user.get_role()
+#     paygrade = user.get_paygrade()
+#     workdays = user.get_workdays()
+#     paygrades = dbManager.select_paygrades()
+#     roles = dbManager.select_all_roles()
+#     return render_template('user-settings.html',
+#                            title='settings',
+#                            roles=roles,
+#                            paygrade=paygrade,
+#                            user_role=user_role,
+#                            days=workdays,
+#                            result=result)
 
 
 @app.route('/project-management', methods=['GET'])
@@ -154,7 +154,7 @@ def register():
 def page_not_found(e):
     if current_user.is_authenticated():
         user = load_user(current_user.username)
-        user_roles = user.get_roles()
+        user_roles = user.get_role()
         return render_template('404.html', user_roles=user_roles), 404
     else:
         return render_template('404.html'), 404

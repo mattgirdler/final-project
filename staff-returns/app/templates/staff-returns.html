@@ -36,7 +36,8 @@
             {% for project in user_projects %}
                 <p>{{ project }} - {{ user_projects[project] }}</p>
             {% endfor %}
-            <strong>Total hours logged: {{ total_hours }}</strong>
+            <h4>Total hours required: {{ hours_required }}</h4>
+            <h4>Total hours logged: {{ total_hours }}</h4>
             <div class="top-buffer"></div>
             <button type="submit" class="btn btn-success">Submit</button>
         </div>

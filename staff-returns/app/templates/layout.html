@@ -33,12 +33,6 @@
                 <li><a href="/">Home</a></li>
             {% endif %}
 
-            {% if title =='settings' %}
-                <li class="active"><a href="/settings">Settings</a></li>
-            {% else %}
-                <li><a href="/settings">Settings</a></li>
-            {% endif %}
-
             {% if user_role == 'Delivery Manager' or user_role == 'Admin' %}
                 {% if title =='project-management' %}
                     <li class="active"><a href="/project-management">Project Management</a></li>
@@ -49,7 +43,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">>
         {% if current_user.is_authenticated() %}
-            <li><a href="/settings">{{ current_user.username }}</a></li>
+            <li><a href="#">{{ current_user.username }}</a></li>
             <li><a href="{{ url_for('logout') }}">Logout</a></li>
         {% endif %}
         </ul><!--/.nav-collapse -->
