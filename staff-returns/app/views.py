@@ -47,7 +47,7 @@ def main():
         user_role=user_role,
         user_projects=user_projects,
         total_hours=total_hours,
-        hours_required=hours_required,
+        hours_required=hours_required
         result=result)
 
 

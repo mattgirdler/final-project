@@ -3,6 +3,8 @@
 ## Setup
 
 ```
-pip install -r requirements.txt
-python3 views.py
+vagrant up
+vagrant ssh
+bash run_flask_dev.sh
 ```
+
