@@ -7,7 +7,7 @@
         </div>
         <form action="" method="POST" name="form">
             {{ form.hidden_tag() }}
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="top-buffer"></div>
                 <div class="row" id="username_row">
                     <div class="col-md-5 form-group">
@@ -63,6 +63,26 @@
                         </div>
                     </div>
                 </div>
+                <div class="row" id="workingpattern_row">
+                    <div class="col-md-8 form-group">
+                        <div class="col-md-3">
+                            <label for="workingpattern">Working Pattern</label>
+                        </div>
+                        <div class="checkbox-inline">
+                            {{ form.workingpattern }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="workinghours_row">
+                    <div class="col-md-12 form-group">
+                        {% for day in days %}
+                            <div class="col-md-2">
+                                <label>{{ day }}</label>
+                                <input type="text" value=0 name={{ day }}>
+                            </div>
+                        {% endfor %}
+                    </div>
+            </div>
                 <div class="top-buffer"></div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>

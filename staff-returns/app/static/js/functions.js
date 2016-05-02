@@ -12,3 +12,5 @@ function isHidden(el) {
     var style = window.getComputedStyle(el);
     return (style.display === 'none')
 }
+
+var div = document.getElementById('workingpattern-1')

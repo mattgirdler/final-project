@@ -6,6 +6,7 @@ from flask.ext.login import login_user, logout_user, login_required, current_use
 from forms import LoginForm, RegisterForm
 from user import User
 import json
+from tasks import calculate_hours_required
 
 dbManager = DBAccess()
 
@@ -37,6 +38,7 @@ def main():
         user_projects = {}
         total_hours = 0
     projects = dbManager.select_all_projects()
+    calculate_hours_required()
     return render_template(
         'staff-returns.html',
         title='home',
@@ -134,6 +136,7 @@ def logout():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
+    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
     if request.method == 'POST':
         if form.validate_on_submit() == False:
             flash('All fields are required.', category='error')
@@ -144,7 +147,7 @@ def register():
                 return redirect(url_for('login'))
             else:
                 flash('Username taken', category='error')
-    return render_template('register.html', title='register', form=form)
+    return render_template('register.html', title='register', form=form, days=days)
 
 
 @app.errorhandler(404)

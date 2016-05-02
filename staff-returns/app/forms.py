@@ -1,6 +1,6 @@
 from db import DBAccess
 from flask.ext.wtf import Form
-from wtforms import StringField, PasswordField, SelectField
+from wtforms import StringField, PasswordField, SelectField, RadioField
 from wtforms.validators import DataRequired, EqualTo, email, InputRequired
 from wtforms import validators
 
@@ -32,3 +32,9 @@ class RegisterForm(Form):
     lastname = StringField('lastname', [validators.required()])
     role = SelectField('role', choices=roles, validators=[InputRequired()])
     paygrade = SelectField('paygrade', choices=paygrades, validators=[InputRequired()])
+    workingpattern = RadioField('workingpattern', choices=[('Full-Time', 'Full-Time'), ('Part-Time', 'Part-Time')], validators=[InputRequired()])
+    monday = StringField('monday')
+    tuesday = StringField('tuesday')
+    wednesday = StringField('wednesday')
+    thursday = StringField('thursday')
+    friday = StringField('friday')
