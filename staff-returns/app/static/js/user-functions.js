@@ -21,6 +21,11 @@ function fillForm(user) {
     document.getElementById('lastname').value = user['lastname'];
     document.getElementById('role').value = user['role'];
     document.getElementById('paygrade').value = user['paygrade'];
+    document.getElementById('monday').value = user['workdays']['Monday']
+    document.getElementById('tuesday').value = user['workdays']['Tuesday']
+    document.getElementById('wednesday').value = user['workdays']['Wednesday']
+    document.getElementById('thursday').value = user['workdays']['Thursday']
+    document.getElementById('friday').value = user['workdays']['Friday']
 }
 
 function hideUserDiv() {
