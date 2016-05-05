@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block head %}
+<script type="text/javascript" src="../static/js/user-functions.js"></script>
+{% endblock %}
+{% block body %}
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h2> User Management </h2>
+        </div>
+
+        <form name= "form" id="user_settings_form" method="POST">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="styled-project-select">
+                        <select name="user" id="user" onchange="selectUser()">
+                            <option name="select">Select a user</option>
+                            {% for user in users %}
+                                <option name={{ user['_id'] }}> {{ user['_id'] }}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="user_div">
+                <form action="" method="POST" name="form">
+                    <div class="row">
+                        <div class="col-md-8">
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </form>
+    </div>
+</body>
+{% endblock %}
