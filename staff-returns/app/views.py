@@ -51,31 +51,6 @@ def main():
         result=result)
 
 
-# @app.route('/settings', methods=['GET', 'POST'])
-# @login_required
-# def settings():
-#     result = None
-#     user = load_user(current_user.username)
-#     if request.method == 'POST':
-#         form_data = request.form
-#         dbManager.set_role(user.username, form_data)
-#         dbManager.set_working_hours(user.username, form_data)
-#         result = "Settings updated"
-#         flash(result, 'success')
-#     user_role = user.get_role()
-#     paygrade = user.get_paygrade()
-#     workdays = user.get_workdays()
-#     paygrades = dbManager.select_paygrades()
-#     roles = dbManager.select_all_roles()
-#     return render_template('user-settings.html',
-#                            title='settings',
-#                            roles=roles,
-#                            paygrade=paygrade,
-#                            user_role=user_role,
-#                            days=workdays,
-#                            result=result)
-
-
 @app.route('/project-management', methods=['GET'])
 @login_required
 def project_management():
@@ -96,6 +71,44 @@ def project_management():
                                current_year=year)
     else:
         return render_template('404.html'), 404
+
+@app.route('/user-management', methods=['GET', 'POST'])
+@login_required
+def user_management():
+    result = None
+    if request.method == 'POST':
+        form_data = request.form
+        result = dbManager.update_user(form_data)
+        if result == "User updated successfully":
+            flash(result, 'success')
+    user = load_user(current_user.username)
+    user_role = user.get_role()
+    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+    if user_role == 'Admin':
+        roles = dbManager.select_all_roles()
+        paygrades = dbManager.select_paygrades()
+        users = dbManager.select_all_users()
+        return render_template('user-management.html',
+                               days=days,
+                               paygrades=paygrades,
+                               roles=roles,
+                               title='user-management',
+                               users=users,
+                               user_role=user_role,
+                               result=result)
+    else:
+        return render_template('404.html'), 404
+
+
+@app.route('/load-user/<user_id>', methods=['GET'])
+@login_required
+def load_user_data(user_id=None):
+    user = load_user(current_user.username)
+    user_role = user.get_role()
+    if user_role =='Admin':
+        user = dbManager.select_user(user_id)
+        user.pop('password')
+        return json.dumps(user)
 
 
 @app.route('/load-project/<project_name>', methods=['GET'])
@@ -135,6 +148,8 @@ def logout():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    if current_user.is_authenticated():
+        logout_user()
     form = RegisterForm(request.form)
     days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
     if request.method == 'POST':
@@ -166,6 +181,7 @@ def load_user(user_id):
     if not u:
         return None
     return User(u['_id'])
+
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=8080)

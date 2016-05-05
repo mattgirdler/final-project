@@ -48,7 +48,7 @@ body { padding-top: 70px; }
 .error-actions {margin-top:15px;margin-bottom:15px;}
 .error-actions .btn { margin-right:10px; }
 
-.hidden_div {
+.hidden-div {
     display: none;
 }
 

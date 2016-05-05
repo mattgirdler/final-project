@@ -1,7 +1,7 @@
 from db import DBAccess
 from flask.ext.wtf import Form
-from wtforms import StringField, PasswordField, SelectField, RadioField
-from wtforms.validators import DataRequired, EqualTo, email, InputRequired
+from wtforms import StringField, PasswordField, SelectField, RadioField, DecimalField
+from wtforms.validators import DataRequired, EqualTo, email, InputRequired, NumberRange
 from wtforms import validators
 
 dbManager = DBAccess()
@@ -30,10 +30,9 @@ class RegisterForm(Form):
     confirm = PasswordField('confirm', validators=[InputRequired()])
     firstname = StringField('firstname', validators=[InputRequired()])
     lastname = StringField('lastname', validators=[InputRequired()])
-    role = SelectField('role', choices=roles, validators=[InputRequired()])
     paygrade = SelectField('paygrade', choices=paygrades, validators=[InputRequired()])
-    monday = StringField('monday', validators=[InputRequired()])
-    tuesday = StringField('tuesday', validators=[InputRequired()])
-    wednesday = StringField('wednesday', validators=[InputRequired()])
-    thursday = StringField('thursday', validators=[InputRequired()])
-    friday = StringField('friday', validators=[InputRequired()])
+    monday = DecimalField('monday', validators=[InputRequired()])
+    tuesday = DecimalField('tuesday', validators=[InputRequired()])
+    wednesday = DecimalField('wednesday', validators=[InputRequired()])
+    thursday = DecimalField('thursday', validators=[InputRequired()])
+    friday = DecimalField('friday', validators=[InputRequired()])

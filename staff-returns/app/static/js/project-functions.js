@@ -109,39 +109,39 @@ function loadProject() {
     var month = document.getElementById("month").value;
     var year = document.getElementById("year").value;
     xhttp.onreadystatechange = function() {
-    if (xhttp.readyState == 4 && xhttp.status == 200) {
-        var project = JSON.parse(xhttp.responseText);
-        if (project[year] && project[year][month] && project[year][month]['users']) {
-            switch (chartType) {
-                case 'Column' :
-                    drawColumnChart(project, year, month);
-                    document.getElementById('no_data_div').style.visibility = "hidden"
-                    break;
-                case 'Pie' :
-                    drawPieChart(project, year, month);
-                    document.getElementById('no_data_div').style.visibility = "hidden"
-                    break;
-                case 'Table':
-                    drawTable(project, year, month);
-                    document.getElementById('no_data_div').style.visibility = "hidden"
-                    break;
-            }
-        } else {
-            switch (chartType) {
-                case 'Column' :
-                    drawEmptyColumnChart(project);
-                    document.getElementById('no_data_div').style.visibility = "visible"
-                    break;
-                case 'Pie' :
-                    drawEmptyPieChart();
-                    document.getElementById('no_data_div').style.visibility = "visible"
-                    break;
-                case 'Table':
-                    drawTable(project)
-                    break;
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            var project = JSON.parse(xhttp.responseText);
+            if (project[year] && project[year][month] && project[year][month]['users']) {
+                switch (chartType) {
+                    case 'Column' :
+                        drawColumnChart(project, year, month);
+                        document.getElementById('hidden_div').style.visibility = "hidden"
+                        break;
+                    case 'Pie' :
+                        drawPieChart(project, year, month);
+                        document.getElementById('hidden_div').style.visibility = "hidden"
+                        break;
+                    case 'Table':
+                        drawTable(project, year, month);
+                        document.getElementById('hidden_div').style.visibility = "hidden"
+                        break;
+                }
+            } else {
+                switch (chartType) {
+                    case 'Column' :
+                        drawEmptyColumnChart(project);
+                        document.getElementById('hidden_div').style.visibility = "visible"
+                        break;
+                    case 'Pie' :
+                        drawEmptyPieChart();
+                        document.getElementById('hidden_div').style.visibility = "visible"
+                        break;
+                    case 'Table':
+                        drawTable(project)
+                        break;
+                }
             }
         }
-    }
     };
     xhttp.open("GET", "http://192.168.33.10:8080/load-project/"+projectName, true);
     xhttp.send();

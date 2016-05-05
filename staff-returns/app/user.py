@@ -23,6 +23,11 @@ class User():
         user = dbManager.select_user(self.username)
         return user
 
+    def get_name(self):
+        user = dbManager.select_user(self.username)
+        name = user['firstname'] + " " + user['lastname']
+        return name
+
     def get_id(self):
         return self.username
 

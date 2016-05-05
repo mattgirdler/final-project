@@ -17,20 +17,6 @@
                         {{ form.username }}
                     </div>
                 </div>
-                <div class="row" id="password_row">
-                    <div class="col-md-5 form-group">
-                        <div class="col-md-6">
-                            <label class="control-label" for="password">Password</label>
-                        </div>
-                        {{ form.password }}
-                    </div>
-                    <div class="col-md-5 form-group">
-                        <div class="col-md-6">
-                            <label class="control-label" for="confirm">Confirm Password</label>
-                        </div>
-                        {{ form.confirm }}
-                    </div>
-                </div>
                 <div class="row" id="name_row">
                     <div class="col-md-5 form-group">
                         <div class="col-md-6">
@@ -45,15 +31,21 @@
                         {{ form.lastname }}
                     </div>
                 </div>
-                <div class="row" id="role_row">
-                    <div class="col-md-5  form-group">
+                <div class="row" id="password_row">
+                    <div class="col-md-5 form-group">
                         <div class="col-md-6">
-                            <label for="role">Role</label>
+                            <label class="control-label" for="password">Password</label>
                         </div>
-                        <div class="styled-project-select-register">
-                            {{ form.role }}
-                        </div>
+                        {{ form.password }}
                     </div>
+                    <div class="col-md-5 form-group">
+                        <div class="col-md-6">
+                            <label class="control-label" for="confirm">Confirm Password</label>
+                        </div>
+                        {{ form.confirm }}
+                    </div>
+                </div>
+                <div class="row" id="paygrade_row">
                     <div class="col-md-5 form-group">
                         <div class="col-md-6">
                             <label for="paygrade">Pay Grade</label>
@@ -74,6 +66,7 @@
                         </div>
                     </div>
                 </div> -->
+                <div class="top-buffer"></div>
                 <div class="col-md-4">
                     <h4>Working Hours</h4>
                 </div>
@@ -103,7 +96,7 @@
                 </div>
                 <div class="top-buffer"></div>
                 <div class="col-md-2 col-md-offset-5">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </form>

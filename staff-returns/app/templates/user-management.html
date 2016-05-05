@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="styled-project-select">
-                        <select name="user" id="user" onchange="selectUser()">
+                        <select name="username" id="username" onchange="selectUser()">
                             <option name="select">Select a user</option>
                             {% for user in users %}
                                 <option name={{ user['_id'] }}> {{ user['_id'] }}
@@ -22,14 +22,46 @@
                     </div>
                 </div>
             </div>
-            <div id="user_div">
-                <form action="" method="POST" name="form">
-                    <div class="row">
-                        <div class="col-md-8">
-
+            <div class="top-buffer"></div>
+            <div id="hidden_div" style="visibility: hidden">
+                <div class="row" id="firstname_row">
+                    <div class="col-md-5 form-group">
+                        <label>First Name:</label>
+                        <input type="text" name="firstname" id="firstname">
+                    </div>
+                </div>
+                <div class="row" id="lastname_row">
+                    <div class="col-md-5 form-group">
+                        <label>Last Name:</label>
+                        <input type="text" name="lastname" id="lastname">
+                    </div>
+                </div>
+                <div class="row" id="role_row">
+                    <div class="col-md-5 form-group">
+                        <label>Role:</label>
+                        <div class="styled-project-select">
+                            <select name="role" id="role">
+                                {% for role in roles %}
+                                    <option name={{ role['title'] }}> {{ role['title'] }}
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
-                </form>
+                </div>
+                <div class="row" id="paygrade_row">
+                    <div class="col-md-5 form-group">
+                        <label>Pay Grade:</label>
+                        <div class="styled-project-select">
+                            <select name="paygrade" id="paygrade">
+                                {% for paygrade in paygrades %}
+                                    <option name={{ paygrade['_id'] }}> {{ paygrade['_id'] }}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            <div class="top-buffer"></div>
+            <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>
     </div>

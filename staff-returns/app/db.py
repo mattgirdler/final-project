@@ -41,10 +41,20 @@ class DBAccess():
             if 'hours_required' not in user[year][month] or user[year][month]['hours_required'] == 0:
                 hours_required = calculate_hours_required(user['workdays'])
                 user[year][month]['hours_required'] = hours_required
-            self.update_user(user)
+            self.replace_user(user)
             return user
         else:
             return 'User not found'
+
+    def select_all_users(self):
+        collection = self.get_collection('users')
+        users = collection.find()
+        user_list = []
+        for user in users:
+            user_list.append(user)
+        user_list.sort(key=operator.itemgetter('_id'))
+        return user_list
+
 
     def insert_user(self, user):
         collection = self.get_collection('users')
@@ -53,9 +63,9 @@ class DBAccess():
             'firstname': user.firstname.data.title(),
             'lastname': user.lastname.data.title(),
             'password': generate_password_hash(user.password.data),
-            'role': user.role.data,
+            'role': "All Staff",
             'paygrade': user.paygrade.data,
-            'workdays': {"Monday": "0", "Tuesday": "0", "Wednesday": "0", "Thursday": "0", "Friday": "0"}
+            'workdays': {"Monday": str(user.monday.data), "Tuesday": str(user.tuesday.data), "Wednesday": str(user.wednesday.data), "Thursday": str(user.thursday.data), "Friday": str(user.friday.data)}
         }
         try:
             collection.insert_one(user_dict)
@@ -112,7 +122,16 @@ class DBAccess():
             total_hours += float(user[year][month]['projects'][project])
         return total_hours
 
-    def update_user(self, user):
+    def update_user(self, update_data):
+        user = self.select_user(update_data['username'])
+        print(user)
+        for field in update_data:
+            user[field] = update_data[field]
+        print(user)
+        self.replace_user(user)
+        return("User updated successfully")
+
+    def replace_user(self, user):
         collection = self.get_collection('users')
         collection.replace_one({"_id": user['_id']}, user)
 
@@ -175,6 +194,7 @@ class DBAccess():
         month = date.strftime("%B")
         total_hours = 0
         for user in project[year][month]['users']:
+            print(project[year][month]['users'][user]['hours'])
             total_hours += float(project[year][month]['users'][user]['hours'])
         return total_hours
 

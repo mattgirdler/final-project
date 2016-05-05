@@ -13,4 +13,6 @@ function isHidden(el) {
     return (style.display === 'none')
 }
 
-var div = document.getElementById('workingpattern-1')
+function clicked() {
+    return confirm('Are you sure you want to save? This will overwrite any previously saved projects for this month.');
+}
