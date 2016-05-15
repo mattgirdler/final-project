@@ -1,0 +1,152 @@
+{% extends "layout.html" %}
+{% block head %}
+<script type="text/javascript" src="../static/js/project-functions.js"></script>
+{% endblock %}
+{% block body %}
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h2> Project Management </h2>
+        </div>
+        <ul id="tabs" class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#project_tab" aria-controls="project_tab" role="tab" data-toggle="tab">Project View</a></li>
+            <li role="presentation"><a href="#user_tab" aria-controls="user_tab" role="tab" data-toggle="tab">User View</a></li>
+        </ul>
+          <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="project_tab">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="project">
+                            <h4>Project</h4>
+                        </label>
+                        <div class="styled-project-select">
+                            <select name="project" id="project" onchange="loadProject()">
+                                {% for project in projects %}
+                                    <option name={{ project._id }}> {{ project.name }} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="project_month">
+                            <h4>Month</h4>
+                        </label>
+                        <div class="styled-project-select">
+                            <select name="month" id="project_month" onchange="loadProject()">
+                                {% for month in monthNames %}
+                                    {%  if month == current_month %}
+                                        <option selected="true" name={{ month }}> {{ month }} </option>
+                                    {% else %}
+                                        <option name={{ month }}> {{ month }} </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="project_year">
+                            <h4>Year</h4>
+                        </label>
+                        <div class="styled-project-select">
+                            <select name="year" id="project_year" onchange="loadProject()">
+                                <option name={{ current_year }}>{{ current_year }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="project_chart">
+                            <h4>Chart type</h4>
+                        </label>
+                        <div class="styled-project-select">
+                            <select name="chart" id="project_chart" onchange="loadProject()">
+                                <option name="Column">Column</option>
+                                <option name="Pie">Pie</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="top-buffer"></div>
+                <div class="container">
+                    <div class="hidden-div" id="hidden_div"><h3>No Data Found</h3></div>
+                    <div id="project_chart_div"></div>
+                    <div id="total_hours_div"></div>
+                    <div id="total_cost_div"></div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-2 col-md-offset-5">
+                        <a class="btn btn-primary" id="project_report" onclick="loadProject()">Download Report</a>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="user_tab">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="user">
+                                <h4>User</h4>
+                            </label>
+                            <div class="styled-project-select">
+                                <select name="user" id="user" onchange="loadUser()">
+                                    {% for user in users %}
+                                        <option name={{ user['_id'] }}> {{ user['_id'] }} </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="month">
+                                <h4>Month</h4>
+                            </label>
+                            <div class="styled-project-select">
+                                <select name="month" id="user_month" onchange="loadUser()">
+                                    {% for month in monthNames %}
+                                        {%  if month == current_month %}
+                                            <option selected="true" name={{ month }}> {{ month }} </option>
+                                        {% else %}
+                                            <option name={{ month }}> {{ month }} </option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="user_year">
+                                <h4>Year</h4>
+                            </label>
+                            <div class="styled-project-select">
+                                <select name="year" id="user_year" onchange="loadUser()">
+                                    <option name="2016">2016</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="user_chart">
+                                <h4>Chart type</h4>
+                            </label>
+                            <div class="styled-project-select">
+                                <select name="chart" id="user_chart" onchange="loadUser()">
+                                    <option name="Column">Column</option>
+                                    <option name="Pie">Pie</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="top-buffer"></div>
+                    <div class="container">
+                        <div id="user_chart_div"></div>
+                        <div id="user_hours_logged_div"></div>
+                        <div id="user_hours_required_div"></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-2 col-md-offset-5">
+                            <a class="btn btn-primary" id="user_report" onclick="loadUser()">Download Report</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+</body>
+{% endblock %}

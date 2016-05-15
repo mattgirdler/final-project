@@ -99,3 +99,6 @@ logs/
 
 # Apps cloned within environment #
 apps/
+
+*.pyc
+*.pyo

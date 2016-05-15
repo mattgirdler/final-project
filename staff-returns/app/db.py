@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 from tasks import sort_monthly_projects, calculate_hours_required
 from datetime import datetime
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import generate_password_hash
 import json
 import operator
 
@@ -93,7 +93,11 @@ class DBAccess():
         if 'total_hours' not in user[year][month]:
             user[year][month]['total_hours'] = 0
         for k,v in project_dict.items():
-            user[year][month]['projects'][k] = v
+            # if the number of hours is blank or zero, remove the project from the user
+            if v == "" or v == 0 or v == "0" :
+                del user[year][month]['projects'][k]
+            else:
+                user[year][month]['projects'][k] = v
         user[year][month]['total_hours'] = self.update_user_total_hours(user)
         collection.replace_one({"_id": user_id}, user)
         return user
@@ -119,7 +123,8 @@ class DBAccess():
         month = date.strftime("%B")
         total_hours = 0
         for project in user[year][month]['projects']:
-            total_hours += float(user[year][month]['projects'][project])
+            if user[year][month]['projects'][project] != "":
+                total_hours += float(user[year][month]['projects'][project])
         return total_hours
 
     def update_user(self, update_data):
@@ -172,6 +177,7 @@ class DBAccess():
         hourly_rate = self.select_user_hourly_rate(user_id)
         print(hourly_rate)
         for k,v in sorted_projects.items():
+            if v == "": v = 0
             project_id = self.select_project_id_from_name(k)
             project = self.select_project(project_id)
             if not project.get(year):
@@ -181,9 +187,14 @@ class DBAccess():
                 project[year][month]['users'] = {}
             if 'total_hours' not in project[year][month]:
                 project[year][month]['total_hours'] = 0
-            project[year][month]['users'][user_id] = {}
-            project[year][month]['users'][user_id]['hours'] = v
-            project[year][month]['users'][user_id]['cost'] = float(hourly_rate) * float(v)
+            # if the number of hours is blank or zero, remove the user from the project
+            if v == "" or v == 0 or v == "0":
+                #project[year][month]['users'].pop(user_id)
+                project[year][month]['users'][user_id] = {}
+            else:
+                project[year][month]['users'][user_id] = {}
+                project[year][month]['users'][user_id]['hours'] = v
+                project[year][month]['users'][user_id]['cost'] = float(hourly_rate) * float(v)
             project[year][month]['total_hours'] = self.update_project_total_hours(project)
             project[year][month]['total_cost'] = self.update_project_total_cost(project)
             collection.replace_one({"_id": project_id}, project)
@@ -194,8 +205,9 @@ class DBAccess():
         month = date.strftime("%B")
         total_hours = 0
         for user in project[year][month]['users']:
-            print(project[year][month]['users'][user]['hours'])
-            total_hours += float(project[year][month]['users'][user]['hours'])
+            hours = project[year][month]['users'][user]['hours']
+            if hours != "0" and hours != "" and hours != 0:
+                total_hours += float(project[year][month]['users'][user]['hours'])
         return total_hours
 
     def update_project_total_cost(self, project):
@@ -234,7 +246,7 @@ class DBAccess():
         date = datetime.now()
         year = str(date.year)
         month = date.strftime("%B")
-        project[year][month]['users'][user['_id']] = {}
+        del project[year][month]['users'][user['_id']]
         collection.replace_one({'_id': project_id}, project)
 
     def set_password(self, user_id, password):

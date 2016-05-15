@@ -22,5 +22,5 @@ def calculate_hours_required(workdays):
         # eg. day[0] == "Monday", day[1] == 0
         numdays = (len([1 for i in calendar.monthcalendar(datetime.now().year, datetime.now().month) if i[day[1]] != 0]))
         hours_required += float(numdays) * float(workdays[day[0]])
-    return hours_required
+    return int(hours_required)
 

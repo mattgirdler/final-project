@@ -11,12 +11,12 @@
 
         <form name= "form" id="user_settings_form" method="POST">
             <div class="col-md-12">
-            <div class="top-buffer"></div>
                 <div class="row">
                     <div class="col-md-4">
+                    <h3>Select a user</h3>
                         <div class="styled-project-select">
                             <select name="username" id="username" onchange="selectUser()">
-                                <option name="select">Select a user</option>
+                                <option name="select"></option>
                                 {% for user in users %}
                                     <option name={{ user['_id'] }}> {{ user['_id'] }}
                                 {% endfor %}
@@ -24,7 +24,6 @@
                         </div>
                     </div>
                 </div>
-                <hr>
                 <div id="hidden_div" style="visibility: hidden">
                     <div class="row">
                         <div class="col-md-12">
@@ -33,7 +32,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="top-buffer"></div>
                     <div class="row" id="name_row">
                         <div class="col-md-12">
                             <div class="col-md-3 form-group">

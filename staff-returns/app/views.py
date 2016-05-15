@@ -6,10 +6,8 @@ from flask.ext.login import login_user, logout_user, login_required, current_use
 from forms import LoginForm, RegisterForm
 from user import User
 import json
-from tasks import calculate_hours_required
 
 dbManager = DBAccess()
-
 
 @app.route("/", methods=['GET', 'POST'])
 @login_required
@@ -33,10 +31,14 @@ def main():
     user_dict = dbManager.select_user(user.username)
     if year in user_dict and month in user_dict[year]:
         user_projects = user_dict[year][month]['projects']
+        for x, y in user_projects.items():
+            project = dbManager.select_project(x)
+            user_projects[project['name']] = user_projects.pop(x)
+            print(user_projects)
         if 'total_hours' in user_dict[year][month]:
-            total_hours = float(user_dict[year][month]['total_hours'])
+            total_hours = int(user_dict[year][month]['total_hours'])
         if 'hours_required' in user_dict[year][month]:
-            hours_required = float(user_dict[year][month]['hours_required'])
+            hours_required = int(user_dict[year][month]['hours_required'])
     projects = dbManager.select_all_projects()
     return render_template(
         'staff-returns.html',
@@ -51,24 +53,26 @@ def main():
         result=result)
 
 
-@app.route('/project-management', methods=['GET'])
+@app.route('/budget-tracking', methods=['GET'])
 @login_required
 def project_management():
     user = load_user(current_user.username)
     user_role = user.get_role()
+    users = dbManager.select_all_users();
     date = datetime.now()
     year = str(date.year)
     month = date.strftime("%B")
     monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     if user_role == 'Admin' or user_role == 'Delivery Manager':
         projects = dbManager.select_all_projects()
-        return render_template('project-management.html',
-                               title='project-management',
+        return render_template('budget-tracking.html',
+                               title='budget-tracking',
                                user_role=user_role,
                                projects=projects,
                                monthNames=monthNames,
                                current_month=month,
-                               current_year=year)
+                               current_year=year,
+                               users=users)
     else:
         return render_template('404.html'), 404
 
@@ -83,8 +87,8 @@ def user_management():
             flash(result, 'success')
     user = load_user(current_user.username)
     user_role = user.get_role()
-    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
     if user_role == 'Admin':
+        days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
         roles = dbManager.select_all_roles()
         paygrades = dbManager.select_paygrades()
         users = dbManager.select_all_users()
@@ -130,7 +134,10 @@ def login():
         if user != 'User not found':
             if user and User.validate_login(user['password'], form.password.data):
                 user_obj = User(user['_id'])
-                login_user(user_obj)
+                if form.remember.data:
+                    login_user(user_obj, remember=True)
+                else:
+                    login_user(user_obj)
                 flash("Logged in successfully", category='success')
                 return redirect(request.args.get("next") or url_for('main'))
             else:

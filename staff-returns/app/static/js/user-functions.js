@@ -1,7 +1,7 @@
 function selectUser() {
     var xhttp = new XMLHttpRequest();
     var user_id = document.getElementById('username').value;
-    if (user_id != 'Select a user') {
+    if (user_id != '') {
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 var user = JSON.parse(xhttp.responseText);
