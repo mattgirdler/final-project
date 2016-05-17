@@ -38,9 +38,8 @@ class DBAccess():
                 user[year][month]['projects'] = {}
             if 'total_hours' not in user[year][month]:
                 user[year][month]['total_hours'] = 0
-            if 'hours_required' not in user[year][month] or user[year][month]['hours_required'] == 0:
-                hours_required = calculate_hours_required(user['workdays'])
-                user[year][month]['hours_required'] = hours_required
+            hours_required = calculate_hours_required(user['workdays'])
+            user[year][month]['hours_required'] = hours_required
             self.replace_user(user)
             return user
         else:
