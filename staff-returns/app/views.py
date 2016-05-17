@@ -16,11 +16,11 @@ def main():
     if request.method == 'POST':
         form_data = request.form
         result = dbManager.log_projects(current_user.username, form_data)
-        if result == "Hours logged successfully":
+        if result == "Hours updated successfully":
             flash(result, 'success')
         elif result == "No projects entered":
             flash(result, 'error')
-    user_projects = {}
+    sorted_user_projects = {}
     total_hours = 0
     hours_required = 0
     date = datetime.now()
@@ -33,8 +33,8 @@ def main():
         user_projects = user_dict[year][month]['projects']
         for x, y in user_projects.items():
             project = dbManager.select_project(x)
-            user_projects[project['name']] = user_projects.pop(x)
-            print(user_projects)
+            sorted_user_projects[project['name']] = user_projects[x]
+            print(sorted_user_projects)
         if 'total_hours' in user_dict[year][month]:
             total_hours = int(user_dict[year][month]['total_hours'])
         if 'hours_required' in user_dict[year][month]:
@@ -47,7 +47,7 @@ def main():
         year=year,
         projects=projects,
         user_role=user_role,
-        user_projects=user_projects,
+        user_projects=sorted_user_projects,
         total_hours=total_hours,
         hours_required=hours_required,
         result=result)
@@ -109,7 +109,7 @@ def user_management():
 def load_user_data(user_id=None):
     user = load_user(current_user.username)
     user_role = user.get_role()
-    if user_role =='Admin':
+    if user_role == 'Admin' or user_role == 'Delivery Manager':
         user = dbManager.select_user(user_id)
         user.pop('password')
         return json.dumps(user)

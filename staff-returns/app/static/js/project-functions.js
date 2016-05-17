@@ -110,7 +110,7 @@ function drawProjectChart(project) {
     var chartType =  document.getElementById("project_chart").value;
     var month = document.getElementById("project_month").value;
     var year = document.getElementById("project_year").value;
-    if (project[year] && project[year][month] && (project[year][month]['users'])) {
+    if (project[year] && project[year][month] && (!jQuery.isEmptyObject(project[year][month]['users']))) {
         switch (chartType) {
             case 'Column' :
                 drawColumnChart(project, year, month, 'project');
@@ -135,7 +135,7 @@ function drawUserChart(user) {
     var chartType =  document.getElementById("user_chart").value;
     var month = document.getElementById("user_month").value;
     var year = document.getElementById("user_year").value;
-    if (user[year] && user[year][month] && (user[year][month]['projects'] != {})) {
+    if (user[year] && user[year][month] && (!jQuery.isEmptyObject(user[year][month]['projects']))) {
         switch (chartType) {
             case 'Column' :
                 drawColumnChart(user, year, month, 'user');

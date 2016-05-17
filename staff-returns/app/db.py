@@ -95,7 +95,8 @@ class DBAccess():
         for k,v in project_dict.items():
             # if the number of hours is blank or zero, remove the project from the user
             if v == "" or v == 0 or v == "0" :
-                del user[year][month]['projects'][k]
+                if k in user[year][month]['projects']:
+                    del user[year][month]['projects'][k]
             else:
                 user[year][month]['projects'][k] = v
         user[year][month]['total_hours'] = self.update_user_total_hours(user)
@@ -129,9 +130,13 @@ class DBAccess():
 
     def update_user(self, update_data):
         user = self.select_user(update_data['username'])
-        print(user)
+        print(update_data)
+        workdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
         for field in update_data:
-            user[field] = update_data[field]
+            if field in workdays:
+                user['workdays'][field] = update_data[field]
+            else:
+                user[field] = update_data[field]
         print(user)
         self.replace_user(user)
         return("User updated successfully")
@@ -189,8 +194,8 @@ class DBAccess():
                 project[year][month]['total_hours'] = 0
             # if the number of hours is blank or zero, remove the user from the project
             if v == "" or v == 0 or v == "0":
-                #project[year][month]['users'].pop(user_id)
-                project[year][month]['users'][user_id] = {}
+                if user_id in project[year][month]['users']:
+                    del project[year][month]['users'][user_id]
             else:
                 project[year][month]['users'][user_id] = {}
                 project[year][month]['users'][user_id]['hours'] = v
@@ -204,10 +209,12 @@ class DBAccess():
         year = str(date.year)
         month = date.strftime("%B")
         total_hours = 0
-        for user in project[year][month]['users']:
-            hours = project[year][month]['users'][user]['hours']
-            if hours != "0" and hours != "" and hours != 0:
-                total_hours += float(project[year][month]['users'][user]['hours'])
+        if project[year][month]['users'] != {}:
+            for user in project[year][month]['users']:
+                hours = project[year][month]['users'][user]['hours']
+                if hours == "":
+                    hours = 0
+                total_hours += float(hours)
         return total_hours
 
     def update_project_total_cost(self, project):

@@ -2,6 +2,11 @@
 
 ## Setup
 
+Add the following line to the host machine's '/etc/hosts' file
+```
+192.168.255.255 project-budget-tracker
+```
+
 ```
 vagrant up
 vagrant ssh
