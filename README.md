@@ -10,8 +10,14 @@ Add the following line to the host machine's '/etc/hosts' file
 ```
 vagrant up
 vagrant ssh
+pip install -r requirements.txt
 sudo service mongod start
 bash run_flask_dev.sh
+```
+
+To populate the database:
+```
+python3 /vagrant/scripts/setup-db.py
 ```
 
 # Database Commands
