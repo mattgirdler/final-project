@@ -1,0 +1,115 @@
+{% extends "layout.html" %}
+{% block head %}
+<script type="text/javascript" src="../static/js/user-functions.js"></script>
+{% endblock %}
+{% block body %}
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h2> User Management </h2>
+        </div>
+
+        <form name= "form" id="user_settings_form" method="POST">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4">
+                    <h3>Select a user</h3>
+                        <div class="styled-project-select">
+                            <select name="username" id="username" onchange="selectUser()">
+                                <option name="select"></option>
+                                {% for user in users %}
+                                    <option name={{ user['_id'] }}> {{ user['_id'] }}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div id="hidden_div" style="visibility: hidden">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <h3>Details</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="name_row">
+                        <div class="col-md-12">
+                            <div class="col-md-3 form-group">
+                                <label>First Name</label>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <input type="text" name="firstname" id="firstname">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label>Last Name</label>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <input type="text" name="lastname" id="lastname">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="role_paygrade_row">
+                        <div class="col-md-12">
+                            <div class="col-md-3 form-group">
+                                <label>Role</label>
+                                <div class="styled-project-select-register">
+                                    <select name="role" id="role">
+                                        {% for role in roles %}
+                                            <option name={{ role['title'] }}> {{ role['title'] }}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label>Pay Grade</label>
+                                <div class="styled-project-select-register">
+                                    <select name="paygrade" id="paygrade">
+                                        {% for paygrade in paygrades %}
+                                            <option name={{ paygrade['_id'] }}> {{ paygrade['_id'] }}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>Working Hours</h4>
+                    </div>
+                    <div class="row" id="workinghours_row">
+                        <div class="col-md-12 form-group">
+                            <div class="col-md-2">
+                                <label for="Monday">Monday</label>
+                                <input type="text" value=0 name="Monday" id="monday">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="Tuesday">Tuesday</label>
+                                <input type="text" value=0 name="Tuesday" id="tuesday">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="Wednesday">Wednesday</label>
+                                <input type="text" value=0 name="Wednesday" id="wednesday">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="Thursday">Thursday</label>
+                                <input type="text" value=0 name="Thursday" id="thursday">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="Friday">Friday</label>
+                                <input type="text" value=0 name="Friday" id="friday">
+                            </div>
+                        </div>
+                    </div>
+                <div class="top-buffer"></div>
+                <div class="col-md-2 col-md-offset-5">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+{% endblock %}

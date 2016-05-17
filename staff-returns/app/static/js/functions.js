@@ -1,5 +1,5 @@
 function addProjectRow() {
-    for (var i = 1; i < 16; i++) {
+    for (var i = 1; i < 20; i++) {
         var div = document.getElementById('project_row_' + i)
         if (isHidden(div)) {
             div.style.display = ""
@@ -11,4 +11,8 @@ function addProjectRow() {
 function isHidden(el) {
     var style = window.getComputedStyle(el);
     return (style.display === 'none')
+}
+
+function clicked() {
+    return confirm('Are you sure you want to save? This will overwrite any previously saved projects for this month.');
 }

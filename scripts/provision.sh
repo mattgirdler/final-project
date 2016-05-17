@@ -1,5 +1,6 @@
 sudo yum install epel-release
 sudo yum install python34
+sudo yum -y install mongodb-org mongodb-org-server
 sudo easy_install pip
 sudo pip install Flask-PyMongo
 sudo pip install flask

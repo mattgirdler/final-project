@@ -23,6 +23,11 @@ class User():
         user = dbManager.select_user(self.username)
         return user
 
+    def get_name(self):
+        user = dbManager.select_user(self.username)
+        name = user['firstname'] + " " + user['lastname']
+        return name
+
     def get_id(self):
         return self.username
 
@@ -37,12 +42,6 @@ class User():
     def get_paygrade(self):
         paygrade = dbManager.select_user_paygrade(self)
         return paygrade
-
-    def calculate_monthly_hours_required(self):
-        workdays = self.get_workdays()
-        for day, hours in workdays:
-            print(day, hours)
-            len([1 for i in calendar.monthcalendar(datetime.now().year, datetime.now().month) if i[6] != 0])
 
     def set_password(self):
         pass
