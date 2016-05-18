@@ -1,1 +1,1 @@
-web: bash staff-returns/run_flask_dev.sh
+web: bash run_flask_dev.sh

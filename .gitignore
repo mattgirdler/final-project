@@ -100,7 +100,7 @@ logs/
 # Apps cloned within environment #
 apps/
 
-staff-returns/app/__pycache__/
+app/__pycache__/
 
 *.pyc
 *.pyo
